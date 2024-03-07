@@ -55,7 +55,7 @@ int main()
         
         //n 미만의 소수 b, 그리고 a=n-b. a가 소수면 그대로 a,b 확정 및 출력
 
-        for(int i=n-1; i>=2; i--) {
+        for(int i=n-1; i>2; i-=2) {
             flag=0;
             
             if(is_prime[i]) { //소수면 true
