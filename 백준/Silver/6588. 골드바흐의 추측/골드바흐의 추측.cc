@@ -12,12 +12,12 @@ int findPrime() {
     is_prime[0]=0;
     is_prime[1]=0;
     
-    for(int i=2; i<=1000001; i++) {
+    for(int i=2; i*i<=1000001; i++) {
         if(!is_prime[i]) { //이미 false이면 검토 X
             continue; //아래 무시하고 바로 다음 반복
         } 
         
-        for(int j=i+i; j<=1000001; j+=i) {
+        for(int j=i*i; j<=1000001; j+=i) {
             if(!is_prime[i]) { //이미 false이면 검토 X
                 continue;
             }
