@@ -1,33 +1,43 @@
-#include <stdio.h>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int cntCoins(vector<int>& coins, int k) {
+    int cnt = 0;
+    
+   for(int i=coins.size()-1 ; i>=0; i--) {
+       if(coins[i]<=k) {
+           k-=coins[i];
+           cnt ++ ;
+           i++;
+       }
+   }
+   
+    
+    return cnt;
+}
 
 int main()
 {
-    int n,k;
-	int ans=0;
-    int count=0;
-    scanf("%d", &n);
-    scanf("%d", &k);
-
-    int arr[n];
+    ios::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
     
-    for(int i=0; i<n; i++) {
-        scanf("%d", &arr[i]);
+    int n, k, temp;
+    vector <int> coins;
+    
+    // 입력
+    cin >> n >> k;
+    while(n--) {
+        cin >> temp;
+        coins.push_back(temp);
     }
     
-    int j=n-1;
     
-    while(ans!=k) {
-        if(arr[j]<=k-ans) {
-            ans+=arr[j];
-            count++;
-            j=n-1;
-        } else {
-            j--; 
-        }
-        
-    }
+    cout << cntCoins(coins, k);
     
-    printf("%d", count);
+    
+    
     
     return 0;
 }
