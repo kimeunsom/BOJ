@@ -1,43 +1,46 @@
 #include <iostream>
-#include <vector>
+#include <stack>
 
 using namespace std;
 
 int main()
 {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    
     int n , m;
     string temp;
 
-    vector<int> v;
+    stack<int> s;
     
     cin >> n;
     
     while(n--) {
         cin >> temp;
         
-        if(temp.compare("push")==0) {
+        if(temp=="push") {
             cin >> m;
-            v.push_back(m);
-        } else if(temp.compare("pop")==0) {
-            if( v.empty() ) { //사이즈가 0이면,
+            s.push(m);
+        } else if(temp=="pop") {
+            if( s.empty() ) { //사이즈가 0이면,
                 cout << -1 << '\n';
             } else {
-                cout << v.back() << '\n';
-                v.pop_back();
+                cout << s.top() << '\n';
+                s.pop();
             }
-        } else if(temp.compare("size")==0) {
-            cout << v.size() << '\n';
-        } else if(temp.compare("empty")==0) {
-            if( v.empty() ) {
+        } else if(temp=="size") {
+            cout << s.size() << '\n';
+        } else if(temp=="empty") {
+            if( s.empty() ) {
                 cout << 1 << '\n';
             } else {
                 cout << 0 << '\n';
             }
-        } else if(temp.compare("top")==0) {
-            if( v.empty() ) {
+        } else if(temp=="top") {
+            if( s.empty() ) {
                 cout << -1 << '\n';
             } else {
-                cout << v.back() << '\n';
+                cout << s.top() << '\n';
             }
 
         } 
