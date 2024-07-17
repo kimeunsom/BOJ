@@ -5,19 +5,18 @@
 using namespace std;
 
 
-int solution(int n, const vector<int>& seq, vector <bool>& ans) {
+int solution(int n, const vector<int>& seq, string& ans) {
     
-    int cnt = 0;
     int num = 1;
     int i = 0;
     stack <int> s;
-    
+
     
     while( i<n ) {
         
         if(s.empty()) {
             s.push(num);
-            ans.push_back(true);
+            ans += "+\n";
             num++;
         } else {
             while (s.top() != seq[i]) {
@@ -25,12 +24,12 @@ int solution(int n, const vector<int>& seq, vector <bool>& ans) {
                 if(num>n) return 0; // n까지 다 넣었는데, 수열 형성 안되는 경우
                 
                 s.push(num);
-                ans.push_back(true);
+                ans += "+\n";
                 num++;
             }
             
             s.pop();
-            ans.push_back(false);
+            ans += "-\n";
             i++;
         }
     }
@@ -46,7 +45,8 @@ int main()
     
     int n, temp;
     vector <int> seq;
-    vector <bool> ans; // 1이면 +, 0이면 -
+    string ans="";  
+
     
     // 입력
     cin >> n;
@@ -62,10 +62,7 @@ int main()
     
     // 출력
     if(res) {
-        for(int i=0; i<ans.size(); i++) {
-            if(ans[i]) cout << "+\n";
-            else cout << "-\n";
-        }
+        cout << ans;
     } else {
         cout << "NO";
     }
