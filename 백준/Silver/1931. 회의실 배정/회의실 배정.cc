@@ -8,6 +8,9 @@ typedef pair<int, int> pi;
 
 int main()
 {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    
     int n, cnt=0;
     vector<pi> arr;
     
