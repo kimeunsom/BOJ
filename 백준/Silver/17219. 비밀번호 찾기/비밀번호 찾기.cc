@@ -1,5 +1,5 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -11,7 +11,7 @@ int main()
     int n, m;
     string site;
     string pw;
-    map<string, string> passwords;
+    unordered_map <string, string> passwords;
     cin >> n >> m;
     
     while(n--) {
