@@ -1,11 +1,11 @@
 #include <iostream>
-#include <vector>
+#include <deque>
 
 using namespace std;
 
 string solution(string &p, int &n, string &arr) {
     
-    vector<int> v;
+    deque<int> dq;
     string ans = "[";
     string num = "";
     bool is_reverse = false;
@@ -16,7 +16,7 @@ string solution(string &p, int &n, string &arr) {
             num += arr[i];
             i++;
         }
-        v.push_back(stoi(num));
+        dq.push_back(stoi(num));
         num = "";
     }
     
@@ -28,36 +28,37 @@ string solution(string &p, int &n, string &arr) {
         } 
         // delete
         else { 
-            if(v.empty()) { // 더이상 지울 요소가 없다면 에러 출력
+            if(dq.empty()) { // 더이상 지울 요소가 없다면 에러 출력
                 return "error";
             }
             
-            is_reverse ? v.erase(v.end() -1) : v.erase(v.begin()) ;
+            is_reverse ? dq.pop_back() : dq.pop_front() ;
        }
     }
     
     
     // 최종 배열 담기
     if(is_reverse) {
-        for(int i=v.size()-1; i>=0; i--) { // 벡터 역순으로 담기
-            ans +=  to_string(v[i]);
-            if(i==0) {
+         while (!dq.empty()) {
+            ans+= to_string(dq.back());
+            dq.pop_back();
+            if(dq.empty()) {
                 break;
             }
             ans += ',';
         }
-    } 
-    else {
-        for(int i=0; i<v.size(); i++) {
-            ans += to_string(v[i]);
-            if(i==v.size()-1) {
+    } else {
+         while (!dq.empty()) {
+            ans+= to_string(dq.front());
+            dq.pop_front();
+            if(dq.empty()) {
                 break;
             }
             ans += ',';
         }
     }
     
-
+    
     return ans+']';
     
 }
