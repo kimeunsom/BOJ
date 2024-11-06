@@ -1,8 +1,46 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 using namespace std;
+
+bool check(int n, int m, const vector<int>& light, int h) {
+    
+    if(light[0] > h) {
+        return false;
+    }
+    
+    for(int i=1; i<m; i++) {
+        if(light[i]-light[i-1] > 2*h) {
+            return false;
+        }
+    }
+    
+    if(n-light[m-1] > h) {
+        return false;
+    }
+    
+    return true;
+}
+
+int binarySearch(int n, int m, const vector<int>& light) {
+    int start = 0;
+    int end = n;
+    int mid;
+    int ans = n;
+    
+    while(start<=end) {
+        mid = (start+end)/2;
+        
+        if(check(n, m, light, mid)) {
+            ans = mid;
+            end = mid-1;
+        } else {
+            start = mid+1;
+        }
+    }
+    
+    return ans;
+}
 
 int main()
 {
@@ -11,29 +49,12 @@ int main()
     
     int n, m;
     cin >> n >> m;
-    vector<int> x(m+2); // 등불의 위치를 저장할 벡터 (굴다리의 양 끝을 포함)
-    
-    x[0] = 0; // 굴다리의 시작
-    
-    for(int i=1; i<=m; i++) {
-        cin >> x[i];
+    vector<int> light(m);
+    for(int i=0; i<m; i++) {
+        cin >> light[i];
     }
     
-    x[m+1] = n; // 굴다리의 끝
-    
-    int max_d = 0;
-    for(int i=1; i<x.size(); i++) {
-        int dist = ceil((x[i] - x[i-1]) / 2.0); // 천장함수
-        if(max_d < dist) {
-            max_d = dist;
-        }
-    }
-    
-    // 굴다리의 시작과 첫 등불 사이, 마지막 등불과 굴다리 끝 사이의 거리를 고려
-    max_d = max(max_d, x[1] - x[0]);
-    max_d = max(max_d, x[m+1] - x[m]);
-    
-    cout << max_d;
-    
+    cout << binarySearch(n, m, light);
+
     return 0;
 }
