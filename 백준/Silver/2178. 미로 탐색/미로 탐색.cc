@@ -40,26 +40,20 @@ int main()
     dist[0][0] = 1;
     
     // BFS로 최단거리 찾기
-    for(int i=0; i<n; i++) {
-        for(int j=0; j<m; j++) {
-            if(dist[i][j]!=-1 || maze[i][j]==0) continue; // 이미 채워졌거나 0이면 패스
-            
-            while(!q.empty()) {
+    while(!q.empty()) {
                 
-                pair<int, int> cur = q.front();
-                q.pop();
+        pair<int, int> cur = q.front();
+        q.pop();
 
-                for(int i=0; i<4; i++) {
-                    int x = cur.first + dx[i];
-                    int y = cur.second + dy[i];
+        for(int i=0; i<4; i++) {
+            int x = cur.first + dx[i];
+            int y = cur.second + dy[i];
                     
-                    if(x<0 || x>=n || y<0 || y>=m) continue; // 범위 벗어나면 패스
-                    if(dist[x][y]!=-1 || maze[x][y]==0) continue; // 해당 칸이 0이거나 이미 채워졌으면 패스..
+            if(x<0 || x>=n || y<0 || y>=m) continue; // 범위 벗어나면 패스
+            if(dist[x][y]!=-1 || maze[x][y]==0) continue; // 해당 칸이 0이거나 이미 채워졌으면 패스..
                     
-                    q.push({x, y});
-                    dist[x][y] = dist[cur.first][cur.second]+1 ; // 현재 칸보다 이동거리 +1
-                }
-            }
+            q.push({x, y});
+            dist[x][y] = dist[cur.first][cur.second]+1 ; // 현재 칸보다 이동거리 +1
         }
     }
     
