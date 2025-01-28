@@ -1,66 +1,52 @@
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
-vector<int> sorted;
+int temp[1000001];
+int arr[1000001];
 
-void merge(vector<int>& arr, int left, int mid, int right) {
+
+// 합치는 함수
+void merge(int left, int right) {
+    int mid = (left+right)/2;
     
-    int pl=left, pr=mid+1, idx=left;
+    int pl = left, pr = mid; // 배열 두개를 찍을 포인터 변수
     
-    while(pl<=mid && pr<=right) {
-        if(arr[pl]<arr[pr]) {
-            sorted[idx++]=arr[pl++];
-        }
-        else{
-            sorted[idx++]=arr[pr++];    
-        }
-    } 
-    
-    while(pl<=mid){
-        sorted[idx++] = arr[pl++];
-    }
-    while(pr<=right){
-        sorted[idx++]=arr[pr++];
+    for(int i=left; i<right; i++) {
+        if(pl == mid) temp[i] = arr[pr++];
+        else if(pr == right) temp[i] = arr[pl++];
+        else if(arr[pl] <= arr[pr]) temp[i] = arr[pl++];
+        else temp[i] = arr[pr++];
     }
     
-    //정렬된 배열 원 배열에 넣기.
-    for(int i=left; i<=right; i++) {
-        arr[i]=sorted[i];
-    }
-    
+    // 배열 복사
+    for(int i=left; i<right; i++) arr[i] = temp[i];
 }
 
-void mergeSort(vector<int>& arr, int left, int right) {
-	if(left<right){
-	    int mid = (left+right)/2;
-	    mergeSort(arr, left, mid);
-	    mergeSort(arr, mid+1, right);
-	    
-	    merge(arr, left, mid, right);
-
-	}
+// 정렬하는 함수
+void mergeSort(int left, int right) {
+    if(right-left<=1) return; // 쪼갠 배열 사이즈가 1이하면 리턴
+    int mid = (left+right)/2;
+    
+    mergeSort(left, mid);
+    mergeSort(mid, right);
+    
+    merge(left, right);
 }
 
 int main()
 {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
     int n;
-    cin>>n;
-    vector<int> arr(n);
+    cin >> n;
     
-    //문자열 할당. assign 함수
-    sorted.assign(n,0);
+    for(int i=0; i<n; i++) cin >> arr[i];
     
-    for(int i=0; i<n; i++) {
-        cin >> arr[i];
-    }
+    mergeSort(0, n);
     
-    mergeSort(arr,0,n-1);
-    
-    for(int i=0; i<n; i++) {
-        cout << arr[i] << "\n";
-    }
+    for(int i=0; i<n; i++) cout << arr[i] << "\n";
     
     return 0;
 }
