@@ -67,35 +67,23 @@ int main()
             int x = cur.first + dx[i];
             int y = cur.second + dy[i];
             
-            if(x<0 || x>=r || y<0 || y>=c) continue; // 범위 외 패스
+            // 최초로 가장자리에 도달한 순간 -> 탈출 가능한 최소 시간임 !
+            if(x<0 || x>=r || y<0 || y>=c) {
+                cout << jh[cur.first][cur.second];
+                return 0;
+            }
+            
             if(jh[x][y]!=0) continue; // 빈 공간이 아닌 경우 패스
             
-            jh[x][y] = jh[cur.first][cur.second] + 1;
-            q_jh.push({x,y});
-        }
-    }
-
-    int min_t = 10000;
-    bool flag = false;
-    
-    for(int i=0; i<r; i++) {
-        for(int j=0; j<c; j++) {
-            if(i==0 || i==r-1 || j==0 || j==c-1) { // 가장자리 좌표에 대해
-                if(jh[i][j]==0) continue; // 지훈이가 닿지 못한 곳은 비교 제외.
-                
-                if(fire[i][j] > jh[i][j] || fire[i][j]==0) { // 불이 안 난 곳이거나, 불 난 시간보다 지훈이의 이동시간이 짧으면
-                    min_t = min(min_t, jh[i][j]);
-                    flag = true;
-                }
+            // 지훈이는 불보다 빨리 이동 가능할 때만 이동 !
+            if (fire[x][y] == 0 || jh[cur.first][cur.second] + 1 < fire[x][y]) {
+                jh[x][y] = jh[cur.first][cur.second] + 1;
+                q_jh.push({x,y});
             }
         }
     }
-    
-    if (flag) {
-        cout << min_t;
-    } else {
-        cout << "IMPOSSIBLE";
-    }
+
+    cout << "IMPOSSIBLE";
 
     return 0;
 }
