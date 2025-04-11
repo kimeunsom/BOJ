@@ -1,31 +1,26 @@
 #include <iostream>
 
 using namespace std;
-
 int n, cnt = 0;
-int arr[16];
-
-// x,y가 퀸 놓을 수 있는 자리인지 체크
-bool check(int x, int y) {
-    
-    for(int i=0; i<x; i++) { // 지금 놓을 행 이전의 행만 점검.
-        if( arr[i]==y || abs(i-x)==abs(arr[i]-y) ) { // 열, 대각선 점검 !
-            return false;
-        }
-    }
-    return true;
-} 
+bool isUsed0[15]; // 각 열의 중복 체크할 배열
+bool isUsed1[30]; // 우상향 대각선의 중복 체크할 배열 : x+y
+bool isUsed2[30]; // 우하향 대각선의 중복 체크할 배열 : x-y+(n-1)
 
 void func(int x) {
-    if(x==n) { // 모든 행에 퀸이 놓임.
+    if(x==n) { // 퀸 n개 다 놓았으니 종료.
         cnt++;
         return;
     }
     
-    for(int i=0; i<n; i++) {
-        if( check(x, i) ) { // 아직 퀸 안놓여있구, 퀸 놓을 수 있는 자리면
-            arr[x] = i; // x행 i열에 퀸 배치
-            func(x+1); // 다음 열
+    for(int y=0; y<n; y++) {
+        if( !isUsed0[y] && !isUsed1[x+y] && !isUsed2[x-y+n-1] ) {
+            isUsed0[y] = true;
+            isUsed1[x+y] = true;
+            isUsed2[x-y+n-1] = true;
+            func(x+1);
+            isUsed0[y] = false;
+            isUsed1[x+y] = false;
+            isUsed2[x-y+n-1] = false;
         }
     }
 }
@@ -36,9 +31,8 @@ int main()
     cin.tie(0);
     
     cin >> n;
-    func(0); // 0행부터 n-1행까지를 체크.
-    
+    func(0);
     cout << cnt;
-    
+
     return 0;
 }
